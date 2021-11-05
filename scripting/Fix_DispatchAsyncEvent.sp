@@ -89,6 +89,7 @@ public void Update_CV(ConVar hCvar, const char[] szOldValue, const char[] szNewV
 
 void LoadCvarList()
 {
+	if(g_hCvarList) g_hCvarList.Clear();
 	char sPath[PLATFORM_MAX_PATH];
 	BuildPath(Path_SM, sPath, sizeof(sPath), CONFIG_PATH);
 	if(!FileExists(sPath)) return;
@@ -113,6 +114,7 @@ void LoadCvarList()
 
 void LoadCvarHookList()
 {
+	if(g_hCvarHookList) g_hCvarHookList.Clear();
 	char sPath[PLATFORM_MAX_PATH];
 	BuildPath(Path_SM, sPath, sizeof(sPath), CONFIG_PATHHOOK);
 	if(!FileExists(sPath)) return;
