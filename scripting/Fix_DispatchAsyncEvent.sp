@@ -23,7 +23,7 @@ public Plugin myinfo =
 	name = "Fix DispatchAsyncEvent",
 	author = "FIVE",
 	description = "DispatchAsyncEvent backlog, failed to dispatch all this frame",
-	version = "1.0.0",
+	version = "1.0.1",
 	url = "www.hlmod.ru"
 }
 
