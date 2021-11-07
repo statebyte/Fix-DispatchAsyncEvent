@@ -23,7 +23,7 @@ public Plugin myinfo =
 	name = "Fix DispatchAsyncEvent",
 	author = "FIVE",
 	description = "DispatchAsyncEvent backlog, failed to dispatch all this frame",
-	version = "1.0.1",
+	version = "1.0.2",
 	url = "www.hlmod.ru"
 }
 
@@ -41,6 +41,7 @@ public void OnPluginEnd()
 
 public void OnMapStart()
 {
+	UnHookAllCvars();
 	LoadCvarList();
 	LoadCvarHookList();
 	HookCvars();
@@ -239,5 +240,34 @@ void CvarRepilcateToClients(ConVar hCvar, char[] sNewValue)
 	for(int i = 1; i < MaxClients; i++) if(IsClientInGame(i) && !IsFakeClient(i))
 	{
 		hCvar.ReplicateToClient(i, sNewValue);
+	}
+}
+
+public void UnHookAllCvars()
+{
+	char szBuffer[256];
+	int iSize = g_hCvarHookList.Length;
+	#if DEBUG == 1
+	PrintToServer("CVAR len %i", iSize);
+	#endif
+	for(int i = 0; i < iSize; i++)
+	{
+		g_hCvarHookList.GetString(i, szBuffer, sizeof(szBuffer));
+
+		ConVar hCvar;
+		hCvar = FindConVar(szBuffer);
+		#if DEBUG == 1
+		PrintToServer("CVAR %s", szBuffer);
+		#endif
+
+		if(hCvar)
+		{
+			#if DEBUG == 1
+			PrintToServer("HOOK CVAR %s", szBuffer);
+			#endif
+			UnhookConVarChange(hCvar, Update_CV);
+		}
+		else PrintToServer("Cvar - %s - not found", szBuffer);
+		delete hCvar;
 	}
 }
